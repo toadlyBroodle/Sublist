@@ -26,7 +26,10 @@ namespace Sublist.Classes
 		public void UpdateListView(MainPage mp)
 		{
 			// store selected index value
-			int selInd = mp.mainListView.SelectedIndex;
+			//int selInd = mp.mainListView.SelectedIndex;
+			// store selected entry
+			RowControl selRow = (RowControl)mp.mainListView.SelectedItem;
+			Entry selEnt = (selRow == null) ? null : selRow.linkedEntry;
 
 			// clear list
 			mp.mainListView.Items.Clear();
@@ -53,15 +56,20 @@ namespace Sublist.Classes
 				}
 			}
 			// persist previous selected index
-			int newInd = selInd;
-			if (selInd >= mp.mainListView.Items.Count) newInd = mp.mainListView.Items.Count - 1;
-			if (selInd < 0) newInd = 0;
-			try {
-				mp.mainListView.SelectedIndex = newInd;
-			} catch (Exception ex)
-			{
-				Debug.WriteLine(TAG, ex.Message);
-			}
+			//int newInd = selInd;
+			//if (selInd >= mp.mainListView.Items.Count) newInd = mp.mainListView.Items.Count - 1;
+			//if (selInd < 0) newInd = 0;
+			//try {
+			//	mp.mainListView.SelectedIndex = newInd;
+			//} catch (Exception ex)
+			//{
+			//	Debug.WriteLine(TAG, ex.Message);
+			//}
+
+			// persist previous selected entry, accounting for changes in list view due to hidden/completed items shown/not-shown
+			if (selEnt != null)
+				mp.mainListView.SelectedIndex = selEnt.listViewIndex;
+
 			// keep selected item in view
 			mp.mainListView.ScrollIntoView(mp.mainListView.SelectedItem);
 
