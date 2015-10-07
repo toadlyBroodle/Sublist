@@ -11,7 +11,7 @@ namespace Sublist.Classes
 
 	public class RowControl : Grid
 	{
-		const string TAG = "RowControl: ";
+		const string TAG = "RowControl";
 		const int INDENT_FACTOR = 15;
 
 		public Entry linkedEntry;

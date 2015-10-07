@@ -18,7 +18,7 @@ namespace Sublist
 		public static DataHandler dataHandler;
 
 		public static MasterList<Entry> masterList;
-		public static int listViewSelectedIndex = -1;
+		//public static int listViewSelectedIndex = -1;
 
 		public MainPage()
         {
@@ -34,22 +34,22 @@ namespace Sublist
 			masterList.UpdateListView(this);
 		}
 
-		private void MainListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			try
-			{
-				// change masterList's active index to reflect the currently selected item
-				RowControl rc = (RowControl)mainListView.Items[mainListView.SelectedIndex];
-				//listViewSelectedIndex = masterList.QueryIndexByID(rc.linkedEntry.id);
-				masterList.activeEntryProp = rc.linkedEntry;
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(TAG, ex.Message);
-				// if doesn't work then set selected to -1 (aka null)
-				listViewSelectedIndex = -1;
-			}
-		}
+		//private void MainListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		//{
+		//	try
+		//	{
+		//		// change masterList's active index to reflect the currently selected item
+		//		RowControl rc = (RowControl)mainListView.Items[mainListView.SelectedIndex];
+		//		listViewSelectedIndex = masterList.QueryIndexByID(rc.linkedEntry.id);
+		//		masterList.activeEntryProp = rc.linkedEntry;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Debug.WriteLine(TAG, ex.Message);
+		//		// if doesn't work then set selected to 0
+		//		//listViewSelectedIndex = 0;
+		//	}
+		//}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -64,7 +64,7 @@ namespace Sublist
 
 		private void AppBarRemove_Click(object sender, RoutedEventArgs e)
 		{
-			if (!(listViewSelectedIndex < 0))
+			if (!(mainListView.SelectedIndex < 0))
 			{
 				masterList.RemoveRow(this);
 			}
@@ -87,7 +87,7 @@ namespace Sublist
 			{
 				// but don't allow more than one indent past above row's indent level
 				RowControl rc = (RowControl)mainListView.Items[mainListView.SelectedIndex];
-				int indexMinus1 = listViewSelectedIndex - 1;
+				int indexMinus1 = mainListView.SelectedIndex - 1;
 				if (-1 < indexMinus1 && rc.indentProp <= masterList[indexMinus1].indent)
 				{
 					rc.indentProp++;
@@ -123,9 +123,9 @@ namespace Sublist
 		public void AppBarMarkAsCompleted_Click(object sender, RoutedEventArgs e)
 		{
 			// toggle hidden state of active entry
-			if (-1 < listViewSelectedIndex && listViewSelectedIndex < masterList.Count)
+			if (-1 < mainListView.SelectedIndex && mainListView.SelectedIndex < masterList.Count)
 			{
-				masterList[listViewSelectedIndex].completed = (masterList[listViewSelectedIndex].completed) ? false : true;
+				masterList[mainListView.SelectedIndex].completed = (masterList[mainListView.SelectedIndex].completed) ? false : true;
 
 				masterList.UpdateListView(this);
 			}

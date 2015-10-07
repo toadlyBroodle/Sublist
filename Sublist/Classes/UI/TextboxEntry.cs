@@ -43,7 +43,7 @@ namespace Sublist.Classes
 				// if doesn't work, then set list view's selected index to last entry
 				parLV.SelectedIndex = parLV.Items.Count - 1;
 				// and also set Mainpage's selected index to null
-				MainPage.listViewSelectedIndex = -1;
+				//MainPage.listViewSelectedIndex = -1;
 			}
 		}
 

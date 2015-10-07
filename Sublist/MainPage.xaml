@@ -44,7 +44,7 @@
 
 
 
-	<ListView Name="mainListView" x:FieldModifier="public" SelectionMode="Single" SelectionChanged="MainListView_SelectionChanged" >
+	<ListView Name="mainListView" x:FieldModifier="public" SelectionMode="Single" >	<!--SelectionChanged="MainListView_SelectionChanged"-->
 		<ListView.ItemContainerStyle>
 			<Style TargetType="ListViewItem">
 				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
