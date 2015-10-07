@@ -58,6 +58,16 @@ namespace Sublist.Classes
 			// persist previous selected entry, accounting for changes in list view due to hidden/completed items shown/not-shown
 			if (selEnt != null)
 			{
+				// constrain selected index to bounds of main list
+				if (selInd < 0)
+					selInd = 0;
+				if (selInd > mp.mainListView.Items.Count - 1)
+					selInd = mp.mainListView.Items.Count - 1;
+				if (selEnt.listViewIndex < 0)
+					selEnt.listViewIndex = 0;
+				if (selEnt.listViewIndex > mp.mainListView.Items.Count - 1)
+					selEnt.listViewIndex = mp.mainListView.Items.Count - 1;
+
 				// account for completed/hidden items to set selected item correctly
 				if ((bool)mp.appBarShowCompl.IsChecked)
 					mp.mainListView.SelectedIndex = selInd;

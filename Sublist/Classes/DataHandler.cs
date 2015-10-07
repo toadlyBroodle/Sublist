@@ -26,6 +26,7 @@ namespace Sublist.Classes
 			settingsHelper = new SettingsHelper();
 			fileHelper = new FileHelper();
 
+			LoadUserSettings();
 			userDataList = LoadUserData();
 		}
 
