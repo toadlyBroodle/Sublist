@@ -68,7 +68,7 @@ namespace Sublist.Classes
 				if (selEnt.listViewIndex > mp.mainListView.Items.Count - 1)
 					selEnt.listViewIndex = mp.mainListView.Items.Count - 1;
 
-				// account for completed/hidden items to set selected item correctly
+				// account for completed/hidden items to set selected item correctly, TODO doesn't work
 				if ((bool)mp.appBarShowCompl.IsChecked)
 					mp.mainListView.SelectedIndex = selInd;
 				else
@@ -86,10 +86,11 @@ namespace Sublist.Classes
 		{
 			Entry ent = new Entry();
 
-			// if no row selected then add new row to end of masterList
+			// if list is empty, or if no row selected then add new row to end of masterList
 			if (mp.mainListView.SelectedIndex < 0)
 			{
 				Add(ent);
+				UpdateListView(mp);
 				// and make this the new selected index
 				mp.mainListView.SelectedIndex = Count - 1;
 			}

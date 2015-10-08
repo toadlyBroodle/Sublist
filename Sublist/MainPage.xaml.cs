@@ -18,7 +18,6 @@ namespace Sublist
 		public static DataHandler dataHandler;
 
 		public static MasterList<Entry> masterList;
-		//public static int listViewSelectedIndex = -1;
 
 		public MainPage()
         {
