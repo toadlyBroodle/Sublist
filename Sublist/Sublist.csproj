@@ -129,7 +129,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="README.md" />
+    <Content Include="README.txt" />
     <None Include="Sublist_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
