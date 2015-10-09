@@ -3,8 +3,8 @@ Sublist is a Windows 10 app to organize your life into a simple list of entries 
 Features: 
   -Mark entries as completed 
   -Hide/unhide completed notes 
-  -Search entire list for keywords (in development) 
   -Expand/contract a note's subcategories (in development) 
+  -Search entire list for keywords (in development) 
   -Password protected (in development) 
   -Encrypted local storage (in development) 
   -Sync across devices (in development)
