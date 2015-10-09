@@ -14,3 +14,5 @@ TODO:
   -implement MVVM structure
 
 Just started working on it, so it's not much yet. Any thoughts are welcome, expecially if they're in XAML and/or C# format!
+
+Screenshot: https://github.com/toadlyBroodle/Sublist/blob/master/extras/Screenshots/2015-10-09%2012-25-21%20PM.png
