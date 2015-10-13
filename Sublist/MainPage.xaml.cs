@@ -71,7 +71,7 @@ namespace Sublist
 
 		private void AppBarMoveDown_Click(object sender, RoutedEventArgs e)
 		{
-
+            
 		}
 
 		private void AppBarMoveUp_Click(object sender, RoutedEventArgs e)

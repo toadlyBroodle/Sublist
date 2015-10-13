@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Sublist.Data;
+using Sublist.Implementation.Entries;
 
 namespace Sublist
 {
@@ -80,9 +81,6 @@ namespace Sublist
             }
             // Ensure the current window is active
             Window.Current.Activate();
-
-
-            IDataProvider dataProvider = new SQLiteDataProvider();
         }
 
         /// <summary>

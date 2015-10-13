@@ -27,7 +27,7 @@ namespace Sublist.Classes
 			fileHelper = new FileHelper();
 
 			LoadUserSettings();
-			userDataList = LoadUserData();
+			//userDataList = LoadUserData();
 		}
 
 		public void SaveUserSettings()

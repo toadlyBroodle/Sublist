@@ -153,9 +153,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sublist.Contracts\Sublist.Contracts.csproj">
+      <Project>{0c020dcb-611e-44c7-a5d0-619946528f02}</Project>
+      <Name>Sublist.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sublist.Data\Sublist.Data.csproj">
       <Project>{4c5f193a-691f-4ff5-8575-c944d42a471b}</Project>
       <Name>Sublist.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sublist.Implementation\Sublist.Implementation.csproj">
+      <Project>{cef5d211-17b0-4c02-995d-4dba43609c2b}</Project>
+      <Name>Sublist.Implementation</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

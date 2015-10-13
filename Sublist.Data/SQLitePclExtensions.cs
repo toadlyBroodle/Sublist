@@ -16,7 +16,7 @@ namespace Sublist.Data
         {
             using (var statement = connection.Prepare(sql))
             {
-                return statement.StepWithRetry();
+                return statement.Step();
             }
         }
 
@@ -32,51 +32,51 @@ namespace Sublist.Data
             {
                 using (var statement = connection.Prepare(sql))
                 {
-                    statement.StepWithRetry();
+                    statement.Step();
                 }
             }
         }
 
-        public static SQLiteResult StepWithRetry(this ISQLiteStatement statement)
-        {
-            var result = new SQLiteResult();
-            var retry = true;
-            var count = 0;
+        //public static SQLiteResult StepWithRetry(this ISQLiteStatement statement)
+        //{
+        //    var result = new SQLiteResult();
+        //    var retry = true;
+        //    var count = 0;
 
-            while (retry)
-            {
-                try
-                {
-                    count++;
-                    result = statement.StepWithBusyRetry();
-                    retry = false;
-                }
-                catch (SQLiteException ex)
-                {
-                    if (!(count < 20))
-                    {
-                        throw ex;
-                    }
+        //    while (retry)
+        //    {
+        //        try
+        //        {
+        //            count++;
+        //            result = statement.StepWithBusyRetry();
+        //            retry = false;
+        //        }
+        //        catch (SQLiteException ex)
+        //        {
+        //            if (count >= 20)
+        //            {
+        //                throw ex;
+        //            }
 
-                    Sleep(500);
-                }
-            }
+        //            Sleep(500);
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        private static SQLiteResult StepWithBusyRetry(this ISQLiteStatement statement)
-        {
-            var result = statement.Step();
+        //private static SQLiteResult StepWithBusyRetry(this ISQLiteStatement statement)
+        //{
+        //    var result = statement.Step();
 
-            for (int busyCount = 1; result == SQLiteResult.BUSY && busyCount < 5; busyCount++)
-            {
-                Sleep(20);
+        //    for (int busyCount = 1; result == SQLiteResult.BUSY && busyCount < 5; busyCount++)
+        //    {
+        //        Sleep(20);
 
-                result = statement.Step();
-            }
-            return result;
-        }
+        //        result = statement.Step();
+        //    }
+        //    return result;
+        //}
 
         public static void Binding(this ISQLiteStatement statement, string paramName, object value)
         {
@@ -85,7 +85,7 @@ namespace Sublist.Data
                 statement.Bind(paramName, ((DateTime)value).ToUniversalTime().Ticks);
                 return;
             }
-            else if (value is DateTime?)
+            if (value is DateTime?)
             {
                 if (value != null)
                 {
@@ -97,14 +97,6 @@ namespace Sublist.Data
             {
                 statement.Bind(paramName, Convert.ToInt64((bool)value));
                 return;
-            }
-            else if (value is bool?)
-            {
-                if (value != null)
-                {
-                    statement.Bind(paramName, Convert.ToInt64((bool)value));
-                    return;
-                }
             }
             else if (value is Enum)
             {
@@ -176,8 +168,6 @@ namespace Sublist.Data
             }
             else if (type == typeof(decimal))
             {
-                // Note: There might be a loss of precision since SQLite's conversion
-                // from floating point to decimal is limited
                 if (value != null)
                 {
                     return (T)Convert.ChangeType(value, type);

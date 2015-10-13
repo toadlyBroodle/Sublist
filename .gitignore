@@ -210,3 +210,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+*.props
+Sublist.Data/Sublist.Data.nuget.targets
+*.targets

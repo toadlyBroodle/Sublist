@@ -14,7 +14,7 @@ namespace Sublist.Data
             _connection = connection;
             using (var statement = connection.Prepare("BEGIN TRANSACTION"))
             {
-                statement.StepWithRetry().ThrowOnFailure("Failed to initiate a transaction");
+                statement.Step().ThrowOnFailure("Failed to initiate a transaction");
             }
         }
 
@@ -61,7 +61,7 @@ namespace Sublist.Data
                 throw new Exception("Cannot execute statement on failed transaction. Rollback this transaction and start a new transaction.");
             }
 
-            var result = statement.StepWithRetry();
+            var result = statement.Step();
             if (!result.IsSuccess())
             {
                 System.Diagnostics.Debug.WriteLine("Failed to execute statement.");
@@ -91,7 +91,7 @@ namespace Sublist.Data
             {
                 using (var statement = _connection.Prepare("END TRANSACTION"))
                 {
-                    statement.StepWithRetry().ThrowOnFailure("Failed to commit a transaction");
+                    statement.Step().ThrowOnFailure("Failed to commit a transaction");
                 }
 
                 _isFinished = true;
@@ -104,7 +104,7 @@ namespace Sublist.Data
             {
                 using (var statement = _connection.Prepare("ROLLBACK"))
                 {
-                    statement.StepWithRetry().ThrowOnFailure("Failed to rollback a transaction");
+                    statement.Step().ThrowOnFailure("Failed to rollback a transaction");
                 }
 
                 _mustRollback = false;

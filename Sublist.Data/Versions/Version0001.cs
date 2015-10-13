@@ -8,6 +8,7 @@ namespace Sublist.Data.Versions
 
         internal override void Upgrade(SQLiteTransaction transaction)
         {
+            // Create database helper table
             transaction.Execute(@"CREATE TABLE IF NOT EXISTS ""DatabaseInfo"" (
                                  ""Id"" INTEGER PRIMARY KEY AUTOINCREMENT, 
                                  ""Version"" TEXT NOT NULL)");

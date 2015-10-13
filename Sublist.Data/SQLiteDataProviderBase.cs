@@ -37,7 +37,7 @@ namespace Sublist.Data
                         {
                             _connection = new SQLiteConnection(DatabaseFilename);
                             var pragma = _connection.Prepare(@"PRAGMA foreign_keys = ON;");
-                            pragma.StepWithRetry();
+                            pragma.Step();
                         }
                     }
                 }
@@ -51,12 +51,12 @@ namespace Sublist.Data
         {
             using (var dbExistsStatement = SharedConnection.Prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='DatabaseInfo'"))
             {
-                if (dbExistsStatement.StepWithRetry() == SQLiteResult.ROW)
+                if (dbExistsStatement.Step() == SQLiteResult.ROW)
                 {
                     const string sql = @"SELECT ""Version"" FROM DatabaseInfo LIMIT 1;";
                     using (var statement = SharedConnection.Prepare(sql))
                     {
-                        if (statement.StepWithRetry() == SQLiteResult.ROW)
+                        if (statement.Step() == SQLiteResult.ROW)
                         {
                             CurrentDatabaseVersion = new Version(statement.GetText("Version"));
                         }
@@ -98,15 +98,14 @@ namespace Sublist.Data
             {
                 try
                 {
-                    using (SharedConnection)
                     using (var transaction = new SQLiteTransaction(SharedConnection))
                     {
                         version.Upgrade(transaction);
                         transaction.Commit();
                     }
 
-                    CurrentDatabaseVersion = version.DbVersion;
                     System.Diagnostics.Debug.WriteLine("Database upgrade from {0} to {1} succeeded", CurrentDatabaseVersion, version.DbVersion);
+                    CurrentDatabaseVersion = version.DbVersion;
                 }
                 catch (Exception exception)
                 {
