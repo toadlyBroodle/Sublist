@@ -1,0 +1,211 @@
+﻿using System;
+using System.Threading;
+using SQLitePCL;
+
+namespace Sublist.Data
+{
+    internal static class SQLitePclExtensions
+    {
+        /// <summary>
+        /// Executes a single statement on a connection.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static SQLiteResult Execute(this ISQLiteConnection connection, string sql)
+        {
+            using (var statement = connection.Prepare(sql))
+            {
+                return statement.StepWithRetry();
+            }
+        }
+
+        /// <summary>
+        /// Executes multiple statements on a connnection.
+        /// Return values are ignored.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="sqlStatements"></param>
+        public static void Execute(this ISQLiteConnection connection, params string[] sqlStatements)
+        {
+            foreach (var sql in sqlStatements)
+            {
+                using (var statement = connection.Prepare(sql))
+                {
+                    statement.StepWithRetry();
+                }
+            }
+        }
+
+        public static SQLiteResult StepWithRetry(this ISQLiteStatement statement)
+        {
+            var result = new SQLiteResult();
+            var retry = true;
+            var count = 0;
+
+            while (retry)
+            {
+                try
+                {
+                    count++;
+                    result = statement.StepWithBusyRetry();
+                    retry = false;
+                }
+                catch (SQLiteException ex)
+                {
+                    if (!(count < 20))
+                    {
+                        throw ex;
+                    }
+
+                    Sleep(500);
+                }
+            }
+
+            return result;
+        }
+
+        private static SQLiteResult StepWithBusyRetry(this ISQLiteStatement statement)
+        {
+            var result = statement.Step();
+
+            for (int busyCount = 1; result == SQLiteResult.BUSY && busyCount < 5; busyCount++)
+            {
+                Sleep(20);
+
+                result = statement.Step();
+            }
+            return result;
+        }
+
+        public static void Binding(this ISQLiteStatement statement, string paramName, object value)
+        {
+            if (value is DateTime)
+            {
+                statement.Bind(paramName, ((DateTime)value).ToUniversalTime().Ticks);
+                return;
+            }
+            else if (value is DateTime?)
+            {
+                if (value != null)
+                {
+                    statement.Bind(paramName, ((DateTime)value).ToUniversalTime().Ticks);
+                    return;
+                }
+            }
+            else if (value is bool)
+            {
+                statement.Bind(paramName, Convert.ToInt64((bool)value));
+                return;
+            }
+            else if (value is bool?)
+            {
+                if (value != null)
+                {
+                    statement.Bind(paramName, Convert.ToInt64((bool)value));
+                    return;
+                }
+            }
+            else if (value is Enum)
+            {
+                statement.Bind(paramName, (int)value);
+                return;
+            }
+            statement.Bind(paramName, value);
+            return;
+        }
+
+        public static T GetValue<T>(this ISQLiteStatement statement, int index)
+        {
+            return GetValue<T>(statement[index]);
+        }
+
+        public static T GetValue<T>(this ISQLiteStatement statement, string key)
+        {
+            return GetValue<T>(statement[key]);
+        }
+
+        private static T GetValue<T>(object value)
+        {
+            var type = typeof(T);
+            if (type == typeof(DateTime))
+            {
+                if (value != null)
+                {
+                    var ticks = (long)value;
+                    if (ticks != 0)
+                    {
+                        return (T)(object)(new DateTime(ticks, DateTimeKind.Utc));
+                    }
+                }
+                return (T)(object)(new DateTime());
+            }
+            else if (type == typeof(DateTime?))
+            {
+                if (value != null)
+                {
+                    var ticks = (long)value;
+                    if (ticks != 0)
+                    {
+                        return (T)(object)(new DateTime(ticks, DateTimeKind.Utc));
+                    }
+                }
+            }
+            else if (type == typeof(bool))
+            {
+                if (value != null)
+                {
+                    var result = (long)value;
+                    if (result != 0)
+                    {
+                        return (T)(object)(true);
+                    }
+                }
+                return (T)(object)(false);
+            }
+            else if (type == typeof(bool?))
+            {
+                if (value != null)
+                {
+                    var result = (long)value;
+                    if (result != 0)
+                    {
+                        return (T)(object)(true);
+                    }
+                }
+            }
+            else if (type == typeof(decimal))
+            {
+                // Note: There might be a loss of precision since SQLite's conversion
+                // from floating point to decimal is limited
+                if (value != null)
+                {
+                    return (T)Convert.ChangeType(value, type);
+                }
+            }
+
+            return (T)value;
+        }
+
+        public static bool IsSuccess(this SQLiteResult result)
+        {
+            return result == SQLiteResult.OK || result == SQLiteResult.DONE;
+        }
+
+        public static void ThrowOnFailure(this SQLiteResult result, string exceptionMessage)
+        {
+            if (result != SQLiteResult.OK && result != SQLiteResult.DONE)
+            {
+                throw new Exception(string.Format("{0} | Result: {1}", exceptionMessage, result));
+            }
+        }
+
+        private static void Sleep(int milliseconds)
+        {
+            // Note: Using a reset event to block the current thread since
+            // PCL does not support the Thread class
+            var manualResetEventSlim = new ManualResetEventSlim();
+            manualResetEventSlim.Wait(milliseconds);
+        }
+    }
+}
