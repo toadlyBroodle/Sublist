@@ -188,10 +188,7 @@ namespace Sublist.Data
 
         public void UpdateAppData(IAppData appData)
         {
-            const string mainSql = @"INSERT OR REPLACE INTO AppData " +
-                                   "(Id, ShowCompleted) " +
-                                   "VALUES " +
-                                   "(1, @showCompleted)";
+            const string mainSql = @"UPDATE AppData SET ShowCompleted = @showCompleted WHERE Id = 1";
 
             using (var transaction = new SQLiteTransaction(SharedConnection))
             {

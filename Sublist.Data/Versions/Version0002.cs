@@ -12,6 +12,7 @@ namespace Sublist.Data.Versions
             transaction.Execute(@"CREATE TABLE IF NOT EXISTS ""AppData"" (
                                  ""Id"" INTEGER PRIMARY KEY AUTOINCREMENT, 
                                  ""ShowCompleted"" NUMBER DEFAULT 0)");
+            transaction.Execute(@"INSERT OR REPLACE INTO AppData (Id) VALUES (1)");
 
             // Create table for entries
             transaction.Execute(@"CREATE TABLE IF NOT EXISTS ""Entry"" (
