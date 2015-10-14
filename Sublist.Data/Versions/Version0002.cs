@@ -9,7 +9,7 @@ namespace Sublist.Data.Versions
         internal override void Upgrade(SQLiteTransaction transaction)
         {
             // Create table to save userdata
-            transaction.Execute(@"CREATE TABLE IF NOT EXISTS ""UserData"" (
+            transaction.Execute(@"CREATE TABLE IF NOT EXISTS ""AppData"" (
                                  ""Id"" INTEGER PRIMARY KEY AUTOINCREMENT, 
                                  ""ShowCompleted"" NUMBER DEFAULT 0)");
 

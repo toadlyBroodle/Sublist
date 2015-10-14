@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\AppData.cs" />
     <Compile Include="Base\ProperyChangedBase.cs" />
     <Compile Include="Entries\SublistEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using SQLitePCL;
+using Sublist.Contracts.App;
 using Sublist.Contracts.Entries;
 using Sublist.Data.Versions;
+using Sublist.Implementation.App;
 using Sublist.Implementation.Entries;
 
 namespace Sublist.Data
@@ -84,6 +86,37 @@ namespace Sublist.Data
             }
         }
 
+        public void UpdateSublistEntry(ISublistEntry entry)
+        {
+            const string updateMainSql = @"UPDATE Entry " +
+                                          "SET Title = @title, Completed = @completed " +
+                                          "WHERE Id = @id";
+
+            const string updateRelationsSql = @"UPDATE EntryRelation " +
+                                               "SET ParentId = @parentId " +
+                                               "WHERE ChildId = @id";
+
+            using (var transaction = new SQLiteTransaction(SharedConnection))
+            {
+                using (var statement = transaction.Prepare(updateMainSql))
+                {
+                    statement.Binding("@title", entry.Title);
+                    statement.Binding("@completed", entry.Completed);
+                    statement.Binding("@id", entry.Id);
+                    transaction.Execute(statement);
+                }
+
+                using (var statement = transaction.Prepare(updateRelationsSql))
+                {
+                    statement.Binding("@parentId", entry.ParentId);
+                    statement.Binding("@id", entry.Id);
+                    transaction.Execute(statement);
+                }
+
+                transaction.Commit();
+            }
+        }
+
         public IEnumerable<ISublistEntry> GetAllSublistEntries()
         {
             const string sql = @"SELECT e.Id, e.Title, e.Completed, e.CreatedAtUtc, er.ParentId " +
@@ -133,6 +166,43 @@ namespace Sublist.Data
             }
 
             throw new DatabaseException($"No entry with Id {id} found.");
+        }
+
+        public IAppData GetAppData()
+        {
+            const string sql = @"SELECT ShowCompleted FROM AppData LIMIT 1";
+
+            using (var statement = SharedConnection.Prepare(sql))
+            {
+                if (statement.Step() == SQLiteResult.ROW)
+                {
+                    return new AppData()
+                    {
+                        ShowCompleted = statement.GetValue<bool>("ShowCompleted")
+                    };
+                }
+            }
+
+            throw new DatabaseException($"No entry for app data found.");
+        }
+
+        public void UpdateAppData(IAppData appData)
+        {
+            const string mainSql = @"INSERT OR REPLACE INTO AppData " +
+                                   "(Id, ShowCompleted) " +
+                                   "VALUES " +
+                                   "(1, @showCompleted)";
+
+            using (var transaction = new SQLiteTransaction(SharedConnection))
+            {
+                using (var statement = transaction.Prepare(mainSql))
+                {
+                    statement.Binding("@showCompleted", appData.ShowCompleted);
+                    transaction.Execute(statement);
+                }
+
+                transaction.Commit();
+            }
         }
     }
 }

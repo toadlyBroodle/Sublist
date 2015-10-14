@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Sublist.Data;
+using Sublist.Implementation.App;
 using Sublist.Implementation.Entries;
 
 namespace Sublist

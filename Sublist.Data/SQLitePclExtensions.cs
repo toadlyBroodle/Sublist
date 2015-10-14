@@ -37,47 +37,6 @@ namespace Sublist.Data
             }
         }
 
-        //public static SQLiteResult StepWithRetry(this ISQLiteStatement statement)
-        //{
-        //    var result = new SQLiteResult();
-        //    var retry = true;
-        //    var count = 0;
-
-        //    while (retry)
-        //    {
-        //        try
-        //        {
-        //            count++;
-        //            result = statement.StepWithBusyRetry();
-        //            retry = false;
-        //        }
-        //        catch (SQLiteException ex)
-        //        {
-        //            if (count >= 20)
-        //            {
-        //                throw ex;
-        //            }
-
-        //            Sleep(500);
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
-        //private static SQLiteResult StepWithBusyRetry(this ISQLiteStatement statement)
-        //{
-        //    var result = statement.Step();
-
-        //    for (int busyCount = 1; result == SQLiteResult.BUSY && busyCount < 5; busyCount++)
-        //    {
-        //        Sleep(20);
-
-        //        result = statement.Step();
-        //    }
-        //    return result;
-        //}
-
         public static void Binding(this ISQLiteStatement statement, string paramName, object value)
         {
             if (value is DateTime)
@@ -188,14 +147,6 @@ namespace Sublist.Data
             {
                 throw new Exception(string.Format("{0} | Result: {1}", exceptionMessage, result));
             }
-        }
-
-        private static void Sleep(int milliseconds)
-        {
-            // Note: Using a reset event to block the current thread since
-            // PCL does not support the Thread class
-            var manualResetEventSlim = new ManualResetEventSlim();
-            manualResetEventSlim.Wait(milliseconds);
         }
     }
 }
