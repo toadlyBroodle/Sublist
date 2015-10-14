@@ -54,9 +54,10 @@ namespace Template10.Services.FileService
                 var _Result = Deserialize<T>(_String);
                 return _Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+				Debug.WriteLine("FileHelper: " + ex.Message);
+				throw;
             }
         }
 

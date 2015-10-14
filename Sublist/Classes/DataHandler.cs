@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Template10.Services.FileService;
 using Template10.Services.SettingsService;
 using Windows.Storage;
@@ -27,7 +28,12 @@ namespace Sublist.Classes
 			fileHelper = new FileHelper();
 
 			LoadUserSettings();
-			userDataList = LoadUserData();
+
+			Task.Run(() =>
+			{
+				userDataList = LoadUserData();
+			});
+			Task.WaitAll();
 		}
 
 		public void SaveUserSettings()
