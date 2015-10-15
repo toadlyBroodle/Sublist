@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Sublist.Providers.Container;
+using Sublist.Views;
 
 namespace Sublist
 {
@@ -56,7 +57,7 @@ namespace Sublist
 
             if (rootFrame.Content == null)
             {
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(MainView), e.Arguments);
             }
 
             Window.Current.Activate();

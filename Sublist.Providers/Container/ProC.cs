@@ -3,5 +3,6 @@
     // Just for shorter naming
     public class ProC : ProviderContainer
     {
+        private ProC() { }
     }
 }

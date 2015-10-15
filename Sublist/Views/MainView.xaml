@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="Sublist.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Sublist.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Sublist.ViewModels"
+    mc:Ignorable="d">
+    <Page.DataContext>
+        <viewmodels:MainViewModel/>
+    </Page.DataContext>
+
+    <Page.TopAppBar>
+        <CommandBar>
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarButton Icon="Add" Label="Add Entry"/>
+            <AppBarButton Icon="Remove" Label="Remove Entry"/>
+            <AppBarButton Icon="Back" Label="Unindent"/>
+            <AppBarButton Icon="Forward" Label="Indent"/>
+            <AppBarButton Icon="Upload" Label="Move Up"/>
+            <AppBarButton Icon="Download" Label="Move Down"/>
+            <AppBarSeparator />
+            <AppBarButton Icon="Accept" Label="Mark as Completed" />
+            <AppBarToggleButton Name="AppBarShowCompl" Icon="View" Label="Show Completed"/>
+            <AppBarButton Icon="Shop" Label="Shop"/>
+            <AppBarButton Icon="Find" Label="Find"/>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    </Grid>
+</Page>
