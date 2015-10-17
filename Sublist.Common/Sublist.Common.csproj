@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CEF5D211-17B0-4C02-995D-4DBA43609C2B}</ProjectGuid>
+    <ProjectGuid>{BCE23953-F9F2-402A-8530-143101CB2CD8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sublist.Implementation</RootNamespace>
-    <AssemblyName>Sublist.Implementation</AssemblyName>
+    <RootNamespace>Sublist.Common</RootNamespace>
+    <AssemblyName>Sublist.Common</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
@@ -107,18 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App\AppData.cs" />
-    <Compile Include="Base\PropertyChangedBase.cs" />
-    <Compile Include="Entries\SublistEntry.cs" />
-    <Compile Include="Entries\SublistEntryBase.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Properties\Sublist.Implementation.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sublist.Contracts\Sublist.Contracts.csproj">
-      <Project>{0c020dcb-611e-44c7-a5d0-619946528f02}</Project>
-      <Name>Sublist.Contracts</Name>
-    </ProjectReference>
+    <Content Include="Properties\Sublist.Common.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

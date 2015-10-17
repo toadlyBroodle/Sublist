@@ -1,0 +1,5 @@
+﻿- Initialize Datatemplates only once
+- Indention
+- Move propertychangedbase to Common project
+- rename entries
+- handling of subitems at hierarchy x

@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="Sublist.Controls.HierarchicListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Sublist.Controls"
+    xmlns:entrymodel="using:Sublist.Contracts.Entries">
+
+    <ListView x:Name="RootListView"
+              ItemsSource="{Binding Items}">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="entrymodel:ISublistEntry">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <CheckBox Content="{x:Bind Title}"
+                              IsChecked="{x:Bind Completed, Converter={StaticResource BooleanToNullableBooleanConverter}}"
+                              Checked="ToggleButton_OnChecked"
+                              Unchecked="ToggleButton_OnUnchecked"/>
+                    <local:HierarchicListView Items="{x:Bind SubEntries}"
+                                              Grid.Row="1"/>
+                </Grid>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</UserControl>

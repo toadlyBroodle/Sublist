@@ -2,7 +2,7 @@
 
 namespace Sublist.ViewModels
 {
-    public class ViewModelBase : PropertyChangedBase
+    public abstract class ViewModelBase : PropertyChangedBase
     {
     }
 }

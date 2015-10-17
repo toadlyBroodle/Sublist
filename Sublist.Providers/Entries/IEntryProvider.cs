@@ -8,5 +8,6 @@ namespace Sublist.Providers.Entries
         ISublistEntry StoreNewEntry(ISublistEntry entry);
         void ChangeEntry(ISublistEntry entry);
         IEnumerable<ISublistEntry> GetAllEntries();
+        void DeleteEntry(ISublistEntry entry);
     }
 }

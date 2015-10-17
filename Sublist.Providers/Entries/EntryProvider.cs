@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sublist.Contracts.Entries;
 using Sublist.Data;
 
@@ -15,17 +16,35 @@ namespace Sublist.Providers.Entries
 
         public ISublistEntry StoreNewEntry(ISublistEntry entry)
         {
-            throw new System.NotImplementedException();
+            entry.Id = _dataProvider.AddSublistEntry(entry);
+            return entry;
         }
 
         public void ChangeEntry(ISublistEntry entry)
         {
-            throw new System.NotImplementedException();
+            _dataProvider.UpdateSublistEntry(entry);
         }
 
         public IEnumerable<ISublistEntry> GetAllEntries()
         {
-            throw new System.NotImplementedException();
+            var listedEntries = _dataProvider.GetAllSublistEntries().ToList();
+            var hierarchicEntries = new List<ISublistEntry>();
+            foreach (var listedEntry in listedEntries)
+            {
+                if (!listedEntry.ParentId.HasValue || listedEntry.ParentId.Value == 0)
+                {
+                    hierarchicEntries.Add(listedEntry);
+                    continue;
+                }
+                var parent = listedEntries.FirstOrDefault(e => e.Id == listedEntry.ParentId.Value);
+                parent?.AddSubEntrySafely(listedEntry);
+            }
+            return hierarchicEntries;
+        }
+
+        public void DeleteEntry(ISublistEntry entry)
+        {
+            _dataProvider.DeleteSublistEntry(entry);
         }
     }
 }
