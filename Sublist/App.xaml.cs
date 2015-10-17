@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using Sublist.Data;
 using Sublist.Implementation.App;
 using Sublist.Implementation.Entries;
+using System.Diagnostics;
 
 namespace Sublist
 {
@@ -25,6 +26,10 @@ namespace Sublist
     /// </summary>
     sealed partial class App : Application
     {
+		const string TAG = "App";
+		SQLiteDataProvider sQLiteDataProvider;
+		AppData appData;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -82,6 +87,21 @@ namespace Sublist
             }
             // Ensure the current window is active
             Window.Current.Activate();
+
+
+			// instantiate database
+			sQLiteDataProvider = new SQLiteDataProvider();
+
+			// get instance of appData
+			try
+			{
+				appData = (AppData)sQLiteDataProvider.GetAppData();
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(TAG, ex.Message);
+				appData = new AppData();
+			}
         }
 
         /// <summary>

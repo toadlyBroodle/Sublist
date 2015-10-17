@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Sublist.Implementation.Base
 {
-    public class ProperyChangedBase : INotifyPropertyChanged
+    public class PropertyChangedBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

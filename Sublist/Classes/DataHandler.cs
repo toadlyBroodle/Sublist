@@ -15,7 +15,6 @@ namespace Sublist.Classes
 
 		MainPage mainPage;
 
-		public SettingsHelper settingsHelper;
 		public FileHelper fileHelper;
 		public MasterList<Entry> userDataList;
 
@@ -23,23 +22,9 @@ namespace Sublist.Classes
 		{
 			mainPage = mp;
 
-			settingsHelper = new SettingsHelper();
 			fileHelper = new FileHelper();
 
-			LoadUserSettings();
 			userDataList = LoadUserData();
-		}
-
-		public void SaveUserSettings()
-		{
-			settingsHelper.Write<bool>(SHOW_COMPLETED, (bool)mainPage.appBarShowCompl.IsChecked);
-			//Debug.WriteLine(TAG + "Settings saved.");
-		}
-
-		public void LoadUserSettings()
-		{
-			mainPage.appBarShowCompl.IsChecked = settingsHelper.Read<bool>(SHOW_COMPLETED, false);
-			//Debug.WriteLine(TAG + "Settings loaded.");
 		}
 
 		public async void SaveUserData()

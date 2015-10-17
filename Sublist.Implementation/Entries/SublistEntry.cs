@@ -4,7 +4,7 @@ using Sublist.Implementation.Base;
 
 namespace Sublist.Implementation.Entries
 {
-    public class SublistEntry : ProperyChangedBase, ISublistEntry
+    public class SublistEntry : PropertyChangedBase, ISublistEntry
     {
         private bool _completed;
         private string _title;

@@ -4,8 +4,8 @@ namespace Sublist.Data
 {
     public class DatabaseException : Exception
     {
-        public DatabaseException(string mesage)
-            : base(mesage)
+        public DatabaseException(string message)
+            : base(message)
         {
             
         }
