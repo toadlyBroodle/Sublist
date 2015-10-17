@@ -6,8 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+<!--	xmlns:appData="using:Sublist.Implementation.App"
+	DataContext="{Binding appData, RelativeSource={RelativeSource Self}}" -->
 
-    <Page.TopAppBar>
+	<Page.TopAppBar>
         <CommandBar>
             <CommandBar.Content>
                 <Grid/>
@@ -27,8 +29,11 @@
             <AppBarSeparator />
             <AppBarButton Icon="Accept" Label="Mark as Completed" 
 						  Click="AppBarMarkAsCompleted_Click" x:FieldModifier="public"/>
-            <AppBarToggleButton Name="appBarShowCompl" Icon="View" Label="Show Completed"
-								Click="AppBarShowCompl_Click" x:FieldModifier="public"/>
+            <AppBarToggleButton Name="appBarShowCompl" 
+								Icon="View" 
+								Label="Show Completed"
+								Click="AppBarShowCompl_Click" 
+								x:FieldModifier="public"/>
             <AppBarButton Icon="Shop" Label="Shop" x:FieldModifier="public"/>
             <AppBarButton Icon="Find" Label="Find" x:FieldModifier="public"/>
         </CommandBar>
@@ -44,7 +49,7 @@
 
 
 
-	<ListView Name="mainListView" x:FieldModifier="public" SelectionMode="Single" >	<!--SelectionChanged="MainListView_SelectionChanged"-->
+	<ListView Name="mainListView" x:FieldModifier="public" SelectionMode="Single" >
 		<ListView.ItemContainerStyle>
 			<Style TargetType="ListViewItem">
 				<Setter Property="HorizontalContentAlignment" Value="Stretch" />

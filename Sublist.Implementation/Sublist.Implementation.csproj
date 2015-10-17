@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\AppData.cs" />
-    <Compile Include="Base\ProperyChangedBase.cs" />
+    <Compile Include="Base\PropertyChangedBase.cs" />
     <Compile Include="Entries\SublistEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\Sublist.Implementation.rd.xml" />
