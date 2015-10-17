@@ -11,14 +11,7 @@ namespace Sublist.Classes
 	{
 		const string TAG = "MasterList";
 
-		//private int activeIndex;
-		//private Entry activeEntry;
-		//public Entry activeEntryProp {
-		//	get { return activeEntry; } 
-		//	// keep activeIndex up to date when active entry is changed
-		//	set { activeEntry = value;  activeIndex = QueryIndexByID(value.id); } }
-
-		public MasterList() //: base()
+		public MasterList()
 		{
 
 		}

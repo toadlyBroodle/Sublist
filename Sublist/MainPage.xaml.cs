@@ -1,6 +1,9 @@
 ﻿using Sublist.Classes;
+using Sublist.Contracts.App;
+using Sublist.Implementation.App;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,7 +17,7 @@ namespace Sublist
 	{
 		const string TAG = "MainPage: ";
 
-		// for loading and saving user data and settings
+		// for loading and saving user data
 		public static DataHandler dataHandler;
 
 		public static MasterList<Entry> masterList;
@@ -26,33 +29,18 @@ namespace Sublist
 			dataHandler = new DataHandler(this);
 			masterList = new MasterList<Entry>();
 
-			// load user data
+			// load app settings and user data
+			appBarShowCompl.IsChecked = App.dataProvider.GetAppData().ShowCompleted;
 			if (dataHandler.userDataList != null)
 				masterList = dataHandler.userDataList;
+
 
 			masterList.UpdateListView(this);
 		}
 
-		//private void MainListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		//{
-		//	try
-		//	{
-		//		// change masterList's active index to reflect the currently selected item
-		//		RowControl rc = (RowControl)mainListView.Items[mainListView.SelectedIndex];
-		//		listViewSelectedIndex = masterList.QueryIndexByID(rc.linkedEntry.id);
-		//		masterList.activeEntryProp = rc.linkedEntry;
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Debug.WriteLine(TAG, ex.Message);
-		//		// if doesn't work then set selected to 0
-		//		//listViewSelectedIndex = 0;
-		//	}
-		//}
-
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			dataHandler.LoadUserSettings();
+
 		}
 
 
@@ -114,7 +102,9 @@ namespace Sublist
 
 		public void AppBarShowCompl_Click(object sender, RoutedEventArgs e)
 		{
-			dataHandler.SaveUserSettings();
+			AppData apDat = new AppData();
+			apDat.ShowCompleted = (appBarShowCompl.IsChecked == null) ? false : (bool)appBarShowCompl.IsChecked;
+			App.dataProvider.UpdateAppData(apDat);
 
 			masterList.UpdateListView(this);
 		}

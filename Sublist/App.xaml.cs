@@ -18,6 +18,7 @@ using Sublist.Data;
 using Sublist.Implementation.App;
 using Sublist.Implementation.Entries;
 using System.Diagnostics;
+using Sublist.Contracts.App;
 
 namespace Sublist
 {
@@ -27,8 +28,9 @@ namespace Sublist
     sealed partial class App : Application
     {
 		const string TAG = "App";
-		SQLiteDataProvider sQLiteDataProvider;
-		AppData appData;
+
+		// database to store user data and app settings
+		public static IDataProvider dataProvider;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -51,8 +53,11 @@ namespace Sublist
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 
+			// instantiate database
+			dataProvider = new SQLiteDataProvider();
+
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+			if (System.Diagnostics.Debugger.IsAttached)
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
@@ -89,19 +94,7 @@ namespace Sublist
             Window.Current.Activate();
 
 
-			// instantiate database
-			sQLiteDataProvider = new SQLiteDataProvider();
 
-			// get instance of appData
-			try
-			{
-				appData = (AppData)sQLiteDataProvider.GetAppData();
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(TAG, ex.Message);
-				appData = new AppData();
-			}
         }
 
         /// <summary>
