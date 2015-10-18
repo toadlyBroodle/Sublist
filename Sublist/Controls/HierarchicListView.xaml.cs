@@ -29,6 +29,7 @@ namespace Sublist.Controls
         }
 
         public IList<ISublistEntry> SelectedItems => GetSelectedItems();
+        public IList<ISublistEntry> FlatItems => GetFlatItems();
 
         public string SubListViewName => "SubItemsListView";
 
@@ -73,6 +74,25 @@ namespace Sublist.Controls
             foreach (var child in children)
             {
                 result.AddRange(child.RootListView.SelectedItems.Cast<ISublistEntry>());
+            }
+            
+            return result;
+        }
+
+        private IList<ISublistEntry> GetFlatItems()
+        {
+            var result = this.RootListView.Items.Cast<ISublistEntry>().ToList();
+            var children = new List<HierarchicListView>();
+
+            foreach (var item in this.RootListView.Items.ToList())
+            {
+                var container = this.RootListView.ContainerFromItem(item);
+                children.AddRange(AllChildren(container));
+            }
+
+            foreach (var child in children)
+            {
+                result.AddRange(child.RootListView.Items.Cast<ISublistEntry>());
             }
             
             return result;

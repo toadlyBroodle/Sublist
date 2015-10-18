@@ -31,5 +31,25 @@ namespace Sublist.Views
         {
             _viewModel?.UpdateEntry(e);
         }
+
+        private void Unindent_OnClick(object sender, RoutedEventArgs e)
+        {
+            var entry = this.HierarchicListView.SelectedItems.FirstOrDefault();
+            _viewModel?.UnindentItem(entry);
+        }
+
+        private void Indent_OnClick(object sender, RoutedEventArgs e)
+        {
+            var entry = this.HierarchicListView.SelectedItems.FirstOrDefault();
+            var entryAbove =
+                this.HierarchicListView.FlatItems.FirstOrDefault(
+                    i => i.ParentId.HasValue && entry.ParentId.HasValue && i != entry && i.ParentId.Value == entry.ParentId.Value);
+            if (entryAbove == null)
+            {
+                int entryIndex = this.HierarchicListView.Items.IndexOf(entry);
+                entryAbove = this.HierarchicListView.Items.ElementAtOrDefault(entryIndex - 1);
+            }
+            _viewModel?.IndentItem(entry, entryAbove);
+        }
     }
 }

@@ -16,6 +16,12 @@
             <AppBarButton Icon="Remove"
                           Label="Remove Entry"
                           Click="RemoveSelectedEntries_OnClick"/>
+            <AppBarButton Icon="Back"
+                          Label="Unindent" 
+						  Click="Unindent_OnClick"/>
+            <AppBarButton Icon="Forward"
+                          Label="Indent" 
+						  Click="Indent_OnClick"/>
             <AppBarSeparator/>
             <AppBarToggleButton Icon="View"
                                 Label="Show Completed"/>

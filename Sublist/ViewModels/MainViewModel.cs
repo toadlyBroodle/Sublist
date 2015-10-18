@@ -98,5 +98,46 @@ namespace Sublist.ViewModels
         {
             _entryProvider.ChangeEntry(entry);
         }
+
+        public void UnindentItem(ISublistEntry entry)
+        {
+            var currentParent = _entryProvider.GetParent(entry, AllEntries);
+            if (currentParent != null)
+            {
+                var parentOfParent = _entryProvider.GetParent(currentParent, AllEntries);
+                if (parentOfParent != null)
+                {
+                    entry.ParentId = parentOfParent.Id;
+                    parentOfParent.AddSubEntrySafely(entry);
+                    currentParent.SubEntries.Remove(entry);
+                    _entryProvider.ChangeEntry(entry);
+                }
+                else
+                {
+                    entry.ParentId = 0;
+                    _entryProvider.ChangeEntry(entry);
+                    currentParent.SubEntries.Remove(entry);
+                    AllEntries.Add(entry);
+                }
+            }
+        }
+
+        public void IndentItem(ISublistEntry entry, ISublistEntry newParent)
+        {
+            if (newParent != null)
+            {
+                var oldParent = _entryProvider.GetParent(entry, AllEntries);
+                if (oldParent != null && oldParent.SubEntries.First() == entry)
+                {
+                    return;
+                }
+
+                entry.ParentId = newParent.Id;
+                newParent.AddSubEntrySafely(entry);
+                oldParent?.SubEntries.Remove(entry);
+                AllEntries.Remove(entry);
+                _entryProvider.ChangeEntry(entry);
+            }
+        }
     }
 }

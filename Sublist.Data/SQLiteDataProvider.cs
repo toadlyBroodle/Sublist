@@ -105,8 +105,11 @@ namespace Sublist.Data
                                           "SET Title = @title, Completed = @completed " +
                                           "WHERE Id = @id";
 
-            const string updateRelationsSql = @"UPDATE EntryRelation " +
-                                               "SET ParentId = @parentId " +
+            const string updateRelationsSql = @"INSERT OR REPLACE INTO EntryRelation " +
+                                               "(ParentId, ChildId) " +
+                                               "VALUES (@parentId, @id)";
+
+            const string deleteRelationsSql = @"DELETE FROM EntryRelation " +
                                                "WHERE ChildId = @id";
 
             using (var transaction = new SQLiteTransaction(SharedConnection))
@@ -119,11 +122,22 @@ namespace Sublist.Data
                     transaction.Execute(statement);
                 }
 
-                using (var statement = transaction.Prepare(updateRelationsSql))
+                if (entry.ParentId.HasValue && entry.ParentId.Value == 0)
                 {
-                    statement.Binding("@parentId", entry.ParentId);
-                    statement.Binding("@id", entry.Id);
-                    transaction.Execute(statement);
+                    using (var statement = transaction.Prepare(deleteRelationsSql))
+                    {
+                        statement.Binding("@id", entry.Id);
+                        transaction.Execute(statement);
+                    }
+                }
+                else if (entry.ParentId.HasValue && entry.ParentId.Value != 0)
+                {
+                    using (var statement = transaction.Prepare(updateRelationsSql))
+                    {
+                        statement.Binding("@parentId", entry.ParentId);
+                        statement.Binding("@id", entry.Id);
+                        transaction.Execute(statement);
+                    }
                 }
 
                 transaction.Commit();
