@@ -1,3 +1,2 @@
 ﻿- Indention
-- Move propertychangedbase to Common project
 - UserSettingsProvider

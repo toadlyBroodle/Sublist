@@ -1,4 +1,4 @@
-﻿using Sublist.Implementation.Base;
+﻿using Sublist.Common.Useful;
 
 namespace Sublist.ViewModels
 {

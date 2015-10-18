@@ -125,6 +125,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sublist.Common\Sublist.Common.csproj">
+      <Project>{bce23953-f9f2-402a-8530-143101cb2cd8}</Project>
+      <Name>Sublist.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sublist.Contracts\Sublist.Contracts.csproj">
       <Project>{0c020dcb-611e-44c7-a5d0-619946528f02}</Project>
       <Name>Sublist.Contracts</Name>

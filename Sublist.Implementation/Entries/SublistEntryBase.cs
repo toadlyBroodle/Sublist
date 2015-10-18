@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Sublist.Common.Useful;
 using Sublist.Contracts.Entries;
-using Sublist.Implementation.Base;
 
 namespace Sublist.Implementation.Entries
 {

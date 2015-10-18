@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Sublist.Implementation.Base
+namespace Sublist.Common.Useful
 {
     public class PropertyChangedBase : INotifyPropertyChanged
     {
