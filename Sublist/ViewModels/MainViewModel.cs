@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Sublist.Common.Extensions;
 using Sublist.Contracts.Entries;
 using Sublist.Implementation.Entries;
@@ -58,10 +59,19 @@ namespace Sublist.ViewModels
 
         public void DeleteSelectedEntries(IEnumerable<ISublistEntry> entries)
         {
-            foreach (var sublistEntry in entries)
+            foreach (var sublistEntry in entries.ToList())
             {
                 _entryProvider.DeleteEntry(sublistEntry);
-                AllEntries.Remove(sublistEntry);
+
+                var parent = _entryProvider.GetParent(sublistEntry, AllEntries);
+                if (parent == null)
+                {
+                    AllEntries.Remove(sublistEntry);
+                }
+                else
+                {
+                    parent.SubEntries.Remove(sublistEntry);
+                }
             }
         }
 

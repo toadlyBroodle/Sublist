@@ -6,7 +6,15 @@
     xmlns:entrymodel="using:Sublist.Contracts.Entries">
 
     <ListView x:Name="RootListView"
-              ItemsSource="{Binding Items}">
+              ItemsSource="{Binding Items}"
+              SelectionMode="Multiple"
+              IsMultiSelectCheckBoxEnabled="False">
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            </Style>
+        </ListView.ItemContainerStyle>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="entrymodel:ISublistEntry">
                 <Grid>
@@ -19,7 +27,8 @@
                               Checked="ToggleButton_OnChecked"
                               Unchecked="ToggleButton_OnUnchecked"/>
                     <local:HierarchicListView Items="{x:Bind SubEntries}"
-                                              Grid.Row="1"/>
+                                              Grid.Row="1"
+                                              x:Name="SubItemsListView"/>
                 </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>

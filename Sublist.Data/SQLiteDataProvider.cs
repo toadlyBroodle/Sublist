@@ -59,30 +59,43 @@ namespace Sublist.Data
 
         public void DeleteSublistEntry(ISublistEntry entry)
         {
-            const string deleteMainSql = @"DELETE FROM Entry WHERE Id = @id";
-            const string updateRelationsSql = @"UPDATE EntryRelation SET ParentId = @parentId WHERE ParentId = @id";
-            const string deleteRelationSql = @"DELETE FROM EntryRelation WHERE ChildId = @id";
-
             using (var transaction = new SQLiteTransaction(SharedConnection))
             {
-                using (var statement = transaction.Prepare(deleteMainSql))
-                {
-                    statement.Binding("@id", entry.Id);
-                    transaction.Execute(statement);
-                }
-                using (var statement = transaction.Prepare(updateRelationsSql))
-                {
-                    statement.Binding("@parentId", entry.ParentId);
-                    statement.Binding("@id", entry.Id);
-                    transaction.Execute(statement);
-                }
+                DeleteSublistEntryInternal(entry, transaction);
+                transaction.Commit();
+            }
+        }
+
+        private void DeleteSublistEntryInternal(ISublistEntry entry, SQLiteTransaction transaction)
+        {
+            const string deleteMainSql = @"DELETE FROM Entry WHERE Id = @id";
+            const string deleteRelationSql = @"DELETE FROM EntryRelation WHERE ChildId = @id OR ParentId = @id";
+
+            using (var statement = transaction.Prepare(deleteRelationSql))
+            {
+                statement.Binding("@id", entry.Id);
+                transaction.Execute(statement);
+            }
+            using (var statement = transaction.Prepare(deleteMainSql))
+            {
+                statement.Binding("@id", entry.Id);
+                transaction.Execute(statement);
+            }
+
+            foreach (var sublistEntry in entry.SubEntries)
+            {
                 using (var statement = transaction.Prepare(deleteRelationSql))
                 {
-                    statement.Binding("@id", entry.Id);
+                    statement.Binding("@id", sublistEntry.Id);
+                    transaction.Execute(statement);
+                }
+                using (var statement = transaction.Prepare(deleteMainSql))
+                {
+                    statement.Binding("@id", sublistEntry.Id);
                     transaction.Execute(statement);
                 }
 
-                transaction.Commit();
+                DeleteSublistEntryInternal(sublistEntry, transaction);
             }
         }
 
