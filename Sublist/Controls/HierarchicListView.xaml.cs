@@ -5,7 +5,6 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Sublist.Common.Extensions;
 using Sublist.Contracts.Entries;
 
 namespace Sublist.Controls
@@ -33,30 +32,37 @@ namespace Sublist.Controls
 
         public string SubListViewName => "SubItemsListView";
 
-        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        private void ToggleButton_Changed(object sender, RoutedEventArgs e)
         {
-            var item = ((CheckBox) sender).DataContext as ISublistEntry;
-            if (item != null)
+            var checkBox = (CheckBox)sender;
+            var item = checkBox.DataContext as ISublistEntry;
+            if (item != null && checkBox.IsChecked.HasValue)
             {
-                item.Completed = true;
+                item.Completed = checkBox.IsChecked.Value;
                 OnSublistEntryUpdated(item);
             }
         }
 
-        private void ToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
+        private void TextBox_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            var item = ((CheckBox)sender).DataContext as ISublistEntry;
+            var textBox = (TextBox) sender;
+            var item = textBox.DataContext as ISublistEntry;
             if (item != null)
             {
-                item.Completed = false;
+                item.Title = textBox.Text;
                 OnSublistEntryUpdated(item);
             }
+        }
+
+        private void SubItemsListView_OnSublistEntryUpdated(object sender, ISublistEntry e)
+        {
+            OnSublistEntryUpdated(e);
         }
 
         private IList<ISublistEntry> GetSelectedItems()
         {
             var result = this.RootListView.SelectedItems.Cast<ISublistEntry>().ToList();
-            List<HierarchicListView> children = new List<HierarchicListView>();
+            var children = new List<HierarchicListView>();
 
             foreach (var item in this.RootListView.Items.ToList())
             {
@@ -72,7 +78,7 @@ namespace Sublist.Controls
             return result;
         }
 
-        private List<HierarchicListView> AllChildren(DependencyObject parent)
+        private IEnumerable<HierarchicListView> AllChildren(DependencyObject parent)
         {
             var children = new List<HierarchicListView>();
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)

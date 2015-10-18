@@ -13,6 +13,13 @@
             <Style TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <ListViewItemPresenter Margin="20,0,0,0"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ListView.ItemContainerStyle>
         <ListView.ItemTemplate>
@@ -22,13 +29,24 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <CheckBox Content="{x:Bind Title}"
-                              IsChecked="{x:Bind Completed, Converter={StaticResource BooleanToNullableBooleanConverter}}"
-                              Checked="ToggleButton_OnChecked"
-                              Unchecked="ToggleButton_OnUnchecked"/>
+                    <CheckBox IsChecked="{x:Bind Completed, Converter={StaticResource BooleanToNullableBooleanConverter}}"
+                              Checked="ToggleButton_Changed"
+                              Unchecked="ToggleButton_Changed"
+                              Grid.Column="0"
+                              HorizontalContentAlignment="Stretch"
+                              HorizontalAlignment="Stretch">
+                        <CheckBox.ContentTemplate>
+                            <DataTemplate x:DataType="entrymodel:ISublistEntry">
+                                <TextBox Text="{x:Bind Title, Mode=TwoWay}"
+                                         LostFocus="TextBox_OnLostFocus"
+                                         HorizontalAlignment="Stretch"/>
+                            </DataTemplate>
+                        </CheckBox.ContentTemplate>
+                    </CheckBox>
                     <local:HierarchicListView Items="{x:Bind SubEntries}"
                                               Grid.Row="1"
-                                              x:Name="SubItemsListView"/>
+                                              x:Name="SubItemsListView"
+                                              SublistEntryUpdated="SubItemsListView_OnSublistEntryUpdated"/>
                 </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>

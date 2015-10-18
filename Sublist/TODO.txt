@@ -1,6 +1,3 @@
-﻿- Initialize Datatemplates only once
-- Indention
+﻿- Indention
 - Move propertychangedbase to Common project
-- rename entries
-- handling of subitems at hierarchy x
 - UserSettingsProvider

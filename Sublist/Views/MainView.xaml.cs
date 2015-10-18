@@ -8,7 +8,7 @@ namespace Sublist.Views
 {
     public sealed partial class MainView : Page
     {
-        private MainViewModel _viewModel;
+        private readonly MainViewModel _viewModel;
 
         public MainView()
         {
@@ -18,7 +18,7 @@ namespace Sublist.Views
 
         private void AddEntry_OnClick(object sender, RoutedEventArgs e)
         {
-            ISublistEntry parent = this.HierarchicListView.SelectedItems.FirstOrDefault();
+            var parent = this.HierarchicListView.SelectedItems.FirstOrDefault();
             _viewModel?.CreateEntry(parent);
         }
 
