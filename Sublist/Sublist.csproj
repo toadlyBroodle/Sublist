@@ -99,6 +99,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TODO.txt" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
