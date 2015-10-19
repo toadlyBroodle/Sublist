@@ -110,6 +110,7 @@
       <DependentUpon>HierarchicListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanToNullableBooleanConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

@@ -51,5 +51,14 @@ namespace Sublist.Views
             }
             _viewModel?.IndentItem(entry, entryAbove);
         }
+
+        private void ShowCompleted_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel == null)
+            {
+                return;
+            }
+            _viewModel.ShowCompleted = !_viewModel.ShowCompleted;
+        }
     }
 }

@@ -8,6 +8,7 @@
 
         <!-- Converters -->
         <converters:BooleanToNullableBooleanConverter x:Key="BooleanToNullableBooleanConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         
         <!-- Templates -->
         

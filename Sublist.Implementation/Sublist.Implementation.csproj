@@ -109,7 +109,8 @@
   <ItemGroup>
     <Compile Include="App\AppData.cs" />
     <Compile Include="Entries\SublistEntry.cs" />
-    <Compile Include="Entries\SublistEntryBase.cs" />
+    <Compile Include="Entries\EntryBase.cs" />
+    <Compile Include="Entries\ViewStateAware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\Sublist.Implementation.rd.xml" />
   </ItemGroup>

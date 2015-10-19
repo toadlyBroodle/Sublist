@@ -15,7 +15,9 @@ namespace Sublist.Controls
             typeof(HierarchicListView), null);
 
         public event EventHandler<ISublistEntry> SublistEntryUpdated;
-        
+
+        private const string SubListViewName = "SubItemsListView";
+
         public HierarchicListView()
         {
             this.InitializeComponent();
@@ -30,8 +32,6 @@ namespace Sublist.Controls
 
         public IList<ISublistEntry> SelectedItems => GetSelectedItems();
         public IList<ISublistEntry> FlatItems => GetFlatItems();
-
-        public string SubListViewName => "SubItemsListView";
 
         private void ToggleButton_Changed(object sender, RoutedEventArgs e)
         {
@@ -68,7 +68,7 @@ namespace Sublist.Controls
             foreach (var item in this.RootListView.Items.ToList())
             {
                 var container = this.RootListView.ContainerFromItem(item);
-                children.AddRange(AllChildren(container));
+                children.AddRange(AllChildren<HierarchicListView>(container, SubListViewName));
             }
 
             foreach (var child in children)
@@ -87,7 +87,7 @@ namespace Sublist.Controls
             foreach (var item in this.RootListView.Items.ToList())
             {
                 var container = this.RootListView.ContainerFromItem(item);
-                children.AddRange(AllChildren(container));
+                children.AddRange(AllChildren<HierarchicListView>(container, SubListViewName));
             }
 
             foreach (var child in children)
@@ -98,17 +98,17 @@ namespace Sublist.Controls
             return result;
         }
 
-        private IEnumerable<HierarchicListView> AllChildren(DependencyObject parent)
+        private IEnumerable<T> AllChildren<T>(DependencyObject parent, string elementName) where T: FrameworkElement
         {
-            var children = new List<HierarchicListView>();
+            var children = new List<T>();
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is HierarchicListView && ((HierarchicListView)child).Name == SubListViewName)
+                if (child is T && ((T)child).Name == elementName)
                 {
-                    children.Add((HierarchicListView)child);
+                    children.Add((T)child);
                 }
-                children.AddRange(AllChildren(child));
+                children.AddRange(AllChildren<T>(child, elementName));
             }
             return children;
         } 

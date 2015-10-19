@@ -2,7 +2,7 @@
 
 namespace Sublist.Implementation.Entries
 {
-    public class SublistEntry : SublistEntryBase
+    public class SublistEntry : EntryBase
     {
         public SublistEntry()
             : this(DateTime.UtcNow)

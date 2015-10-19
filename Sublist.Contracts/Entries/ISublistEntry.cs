@@ -11,6 +11,8 @@ namespace Sublist.Contracts.Entries
         bool Completed { get; set; }
         DateTime CreatedAtUtc { get; }
         ObservableCollection<ISublistEntry> SubEntries { get; set; }
+        bool IsVisible { get; set; }
+
         /// <summary>
         /// Adds an entry safely, so that a parent cannot contain itself. Use this instead of Subentries.Add(...). The ParentId of the child gets updated.
         /// </summary>

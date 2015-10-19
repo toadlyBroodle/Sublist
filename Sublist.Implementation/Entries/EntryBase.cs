@@ -5,7 +5,7 @@ using Sublist.Contracts.Entries;
 
 namespace Sublist.Implementation.Entries
 {
-    public abstract class SublistEntryBase : PropertyChangedBase, ISublistEntry
+    public abstract class EntryBase : ViewStateAware, ISublistEntry
     {
         private bool _completed;
         private string _title;
@@ -14,7 +14,7 @@ namespace Sublist.Implementation.Entries
         private ObservableCollection<ISublistEntry> _subEntries = new ObservableCollection<ISublistEntry>();
         private DateTime _createdAtUtc;
 
-        protected SublistEntryBase(DateTime createdAtUtc)
+        protected EntryBase(DateTime createdAtUtc)
         {
             _createdAtUtc = createdAtUtc;
         }
@@ -55,6 +55,7 @@ namespace Sublist.Implementation.Entries
             set
             {
                 _completed = value;
+                IsVisible = !value;
                 OnPropertyChanged();
             }
         }

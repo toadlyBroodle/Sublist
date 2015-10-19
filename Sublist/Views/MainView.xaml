@@ -24,7 +24,9 @@
 						  Click="Indent_OnClick"/>
             <AppBarSeparator/>
             <AppBarToggleButton Icon="View"
-                                Label="Show Completed"/>
+                                Label="Show Completed"
+                                Click="ShowCompleted_OnClick"
+                                IsChecked="{Binding ShowCompleted}"/>
         </CommandBar>
     </Page.TopAppBar>
 

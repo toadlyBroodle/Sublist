@@ -12,8 +12,10 @@ namespace Sublist.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly IEntryProvider _entryProvider;
+
         private ObservableCollection<ISublistEntry> _allEntries;
         private string _newEntryText;
+        private bool _showCompleted;
 
         public MainViewModel()
         {
@@ -57,6 +59,17 @@ namespace Sublist.ViewModels
             }
         }
 
+        public bool ShowCompleted
+        {
+            get { return _showCompleted; }
+            set
+            {
+                _showCompleted = value;
+                ChangeShowCompleted(value, AllEntries);
+                OnPropertyChanged();
+            }
+        }
+
         public void DeleteSelectedEntries(IEnumerable<ISublistEntry> entries)
         {
             foreach (var sublistEntry in entries.ToList())
@@ -96,6 +109,7 @@ namespace Sublist.ViewModels
 
         public void UpdateEntry(ISublistEntry entry)
         {
+            entry.IsVisible = _showCompleted || !entry.Completed;
             _entryProvider.ChangeEntry(entry);
         }
 
@@ -137,6 +151,22 @@ namespace Sublist.ViewModels
                 oldParent?.SubEntries.Remove(entry);
                 AllEntries.Remove(entry);
                 _entryProvider.ChangeEntry(entry);
+            }
+        }
+
+        private void ChangeShowCompleted(bool show, IEnumerable<ISublistEntry> tree)
+        {
+            foreach (var sublistEntry in tree)
+            {
+                if (!show && sublistEntry.Completed)
+                {
+                    sublistEntry.IsVisible = false;
+                }
+                else
+                {
+                    sublistEntry.IsVisible = true;
+                }
+                ChangeShowCompleted(show, sublistEntry.SubEntries);
             }
         }
     }
