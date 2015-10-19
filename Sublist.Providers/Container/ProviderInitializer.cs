@@ -1,5 +1,6 @@
 ﻿using Sublist.Data;
 using Sublist.Providers.Entries;
+using Sublist.Providers.Settings;
 
 namespace Sublist.Providers.Container
 {
@@ -9,8 +10,10 @@ namespace Sublist.Providers.Container
         {
             var dataProvider = new SQLiteDataProvider();
             var entryProvider = new EntryProvider(dataProvider);
+            var settingsProvider = new SettingsProvider(dataProvider);
 
             ProC.Register<IEntryProvider>(entryProvider);
+            ProC.Register<ISettingsProvider>(settingsProvider);
         }
     }
 }

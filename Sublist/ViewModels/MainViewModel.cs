@@ -6,12 +6,14 @@ using Sublist.Contracts.Entries;
 using Sublist.Implementation.Entries;
 using Sublist.Providers.Container;
 using Sublist.Providers.Entries;
+using Sublist.Providers.Settings;
 
 namespace Sublist.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
         private readonly IEntryProvider _entryProvider;
+        private readonly ISettingsProvider _settingsProvider;
 
         private ObservableCollection<ISublistEntry> _allEntries;
         private string _newEntryText;
@@ -20,6 +22,7 @@ namespace Sublist.ViewModels
         public MainViewModel()
         {
             _entryProvider = ProC.GetInstance<IEntryProvider>();
+            _settingsProvider = ProC.GetInstance<ISettingsProvider>();
             
             Initialize();
         }
@@ -27,6 +30,7 @@ namespace Sublist.ViewModels
         protected void Initialize()
         {
             AllEntries = _entryProvider.GetAllEntries().ToObservableCollection();
+            ShowCompleted = _settingsProvider.GetShowCompleted();
         }
 
         public ObservableCollection<ISublistEntry> AllEntries
@@ -155,6 +159,12 @@ namespace Sublist.ViewModels
         }
 
         private void ChangeShowCompleted(bool show, IEnumerable<ISublistEntry> tree)
+        {
+            _settingsProvider.SetShowCompleted(show);
+            ChangeShowCompletedInternal(show, tree);
+        }
+
+        private void ChangeShowCompletedInternal(bool show, IEnumerable<ISublistEntry> tree)
         {
             foreach (var sublistEntry in tree)
             {
