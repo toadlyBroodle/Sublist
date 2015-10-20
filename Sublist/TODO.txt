@@ -1,4 +1,5 @@
-﻿-only allow one item to be selected at a time
+-BUG: can't type spaces in textboxes!
+-only allow one item to be selected at a time
 -unhandled exception, null reference on unindent clicked
 -unspecified error on indenting item that contains children
 -when textbox selected, change hiearchicalListView's selected item to select the item underlying the textbox
