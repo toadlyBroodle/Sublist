@@ -1,10 +1,6 @@
 ﻿-only allow one item to be selected at a time
--move add entry button to appbar that adds blank child entry to selected item
--remove redundant top input textbox
 -unhandled exception, null reference on unindent clicked
 -unspecified error on indenting item that contains children
--refresh view on item added, so new item is displayed
--refresh view on item indentation, so indented item is displayed
 -when textbox selected, change hiearchicalListView's selected item to select the item underlying the textbox
 -change checkboxes back to togglebuttons, and add complete button to appbar
 -switch out existing indentation functionality to drag-drop interface, i.e. dragging items onto another item adds them as children of this item

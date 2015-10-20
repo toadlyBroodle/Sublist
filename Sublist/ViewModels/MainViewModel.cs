@@ -16,7 +16,6 @@ namespace Sublist.ViewModels
         private readonly ISettingsProvider _settingsProvider;
 
         private ObservableCollection<ISublistEntry> _allEntries;
-        private string _newEntryText;
         private bool _showCompleted;
 
         public MainViewModel()
@@ -32,6 +31,11 @@ namespace Sublist.ViewModels
             AllEntries = _entryProvider.GetAllEntries().ToObservableCollection();
             ShowCompleted = _settingsProvider.GetShowCompleted();
         }
+
+		public void RefreshAllEntries()
+		{
+			AllEntries = _entryProvider.GetAllEntries().ToObservableCollection();
+		}
 
         public ObservableCollection<ISublistEntry> AllEntries
         {
@@ -49,16 +53,6 @@ namespace Sublist.ViewModels
             set
             {
                 _allEntries = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string NewEntryText
-        {
-            get { return _newEntryText; }
-            set
-            {
-                _newEntryText = value;
                 OnPropertyChanged();
             }
         }
@@ -94,10 +88,7 @@ namespace Sublist.ViewModels
 
         public void CreateEntry(ISublistEntry parent)
         {
-            var newEntry = new SublistEntry()
-            {
-                Title = NewEntryText
-            };
+			var newEntry = new SublistEntry();
 
             if (parent != null)
             {
@@ -109,7 +100,9 @@ namespace Sublist.ViewModels
             }
 
             _entryProvider.StoreNewEntry(newEntry);
-        }
+
+			RefreshAllEntries();
+		}
 
         public void UpdateEntry(ISublistEntry entry)
         {
@@ -137,7 +130,9 @@ namespace Sublist.ViewModels
                     currentParent.SubEntries.Remove(entry);
                     AllEntries.Add(entry);
                 }
-            }
+
+				RefreshAllEntries();
+			}
         }
 
         public void IndentItem(ISublistEntry entry, ISublistEntry newParent)
@@ -155,8 +150,11 @@ namespace Sublist.ViewModels
                 oldParent?.SubEntries.Remove(entry);
                 AllEntries.Remove(entry);
                 _entryProvider.ChangeEntry(entry);
-            }
-        }
+
+				RefreshAllEntries();
+
+			}
+		}
 
         private void ChangeShowCompleted(bool show, IEnumerable<ISublistEntry> tree)
         {
