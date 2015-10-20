@@ -92,38 +92,31 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TODO.txt" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\DataHandler.cs" />
-    <Compile Include="Classes\Entry.cs" />
-    <Compile Include="Classes\MasterList.cs" />
-    <Compile Include="Classes\Services\FileService\FileHelper.cs" />
-    <Compile Include="Classes\Services\FileService\FileService.cs" />
-    <Compile Include="Classes\Services\FileService\IFileService.cs" />
-    <Compile Include="Classes\Services\SettingsService\ISettingsHelper.cs" />
-    <Compile Include="Classes\Services\SettingsService\PropertyMapping.cs" />
-    <Compile Include="Classes\Services\SettingsService\PropertyStore.cs" />
-    <Compile Include="Classes\Services\SettingsService\Settings.cs" />
-    <Compile Include="Classes\Services\SettingsService\SettingsHelper.cs" />
-    <Compile Include="Classes\Services\SettingsService\SettingsStrategy.cs" />
-    <Compile Include="Classes\UI\ButtonBullet.cs" />
-    <Compile Include="Classes\UI\RowControl.cs" />
-    <Compile Include="Classes\UI\TextboxEntry.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Controls\HierarchicListView.xaml.cs">
+      <DependentUpon>HierarchicListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToNullableBooleanConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -147,12 +140,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Controls\HierarchicListView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Sublist.Common\Sublist.Common.csproj">
+      <Project>{bce23953-f9f2-402a-8530-143101cb2cd8}</Project>
+      <Name>Sublist.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sublist.Contracts\Sublist.Contracts.csproj">
+      <Project>{0c020dcb-611e-44c7-a5d0-619946528f02}</Project>
+      <Name>Sublist.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sublist.Implementation\Sublist.Implementation.csproj">
+      <Project>{cef5d211-17b0-4c02-995d-4dba43609c2b}</Project>
+      <Name>Sublist.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sublist.Providers\Sublist.Providers.csproj">
+      <Project>{79c0f817-dd46-4eb1-b5d1-be9bb97b2513}</Project>
+      <Name>Sublist.Providers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="Sublist.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Sublist.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Sublist.ViewModels"
+    mc:Ignorable="d">
+    <Page.DataContext>
+        <viewmodels:MainViewModel/>
+    </Page.DataContext>
+
+    <Page.TopAppBar>
+        <CommandBar>
+			<AppBarButton Icon="Add"
+						  Label="Add Entry"
+						  Click="AddEntry_OnClick" />
+            <AppBarButton Icon="Remove"
+                          Label="Remove Entry"
+                          Click="RemoveSelectedEntries_OnClick"/>
+            <AppBarButton Icon="Back"
+                          Label="Unindent" 
+						  Click="Unindent_OnClick"/>
+            <AppBarButton Icon="Forward"
+                          Label="Indent" 
+						  Click="Indent_OnClick"/>
+            <AppBarSeparator/>
+            <AppBarToggleButton Icon="View"
+                                Label="Show Completed"
+                                Click="ShowCompleted_OnClick"
+                                IsChecked="{Binding ShowCompleted}"/>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<controls:HierarchicListView x:Name="HierarchicListView"
+                                     Items="{Binding AllEntries}"
+                                     SublistEntryUpdated="HierarchicListView_OnSublistEntryUpdated"
+                                     Grid.Row="1"/>
+    </Grid>
+</Page>
