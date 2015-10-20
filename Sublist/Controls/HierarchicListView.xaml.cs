@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Sublist.Contracts.Entries;
+using System.Diagnostics;
 
 namespace Sublist.Controls
 {
@@ -117,5 +118,10 @@ namespace Sublist.Controls
         {
             SublistEntryUpdated?.Invoke(this, e);
         }
-    }
+
+		private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)
+		{
+			
+		}
+	}
 }

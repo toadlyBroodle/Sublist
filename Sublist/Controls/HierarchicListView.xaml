@@ -33,6 +33,7 @@
                             <DataTemplate x:DataType="entrymodel:ISublistEntry">
                                 <TextBox Text="{x:Bind Title, Mode=TwoWay}"
                                          LostFocus="TextBox_OnLostFocus"
+										 GotFocus="TextBox_OnGotFocus"
                                          HorizontalAlignment="Stretch"/>
                             </DataTemplate>
                         </CheckBox.ContentTemplate>

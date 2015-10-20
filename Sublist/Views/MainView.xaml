@@ -13,6 +13,9 @@
 
     <Page.TopAppBar>
         <CommandBar>
+			<AppBarButton Icon="Add"
+						  Label="Add Entry"
+						  Click="AddEntry_OnClick" />
             <AppBarButton Icon="Remove"
                           Label="Remove Entry"
                           Click="RemoveSelectedEntries_OnClick"/>
@@ -31,25 +34,12 @@
     </Page.TopAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <Grid Background="LightSkyBlue">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding NewEntryText, Mode=TwoWay}"
-                     PlaceholderText="Create new entry"
-                     HorizontalAlignment="Stretch"/>
-            <Button Click="AddEntry_OnClick"
-                    Content="Add Entry"
-                    Grid.Column="1"/>
-        </Grid>
-        
-        <controls:HierarchicListView x:Name="HierarchicListView"
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<controls:HierarchicListView x:Name="HierarchicListView"
                                      Items="{Binding AllEntries}"
                                      SublistEntryUpdated="HierarchicListView_OnSublistEntryUpdated"
                                      Grid.Row="1"/>
