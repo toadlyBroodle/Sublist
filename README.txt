@@ -11,10 +11,6 @@ Features:
   -Password protected (in development) 
   -Encrypted local storage (in development) 
   -Sync across devices (in development)
-  
-TODO:
-  -fix hang on splash screen when compiling with .NET Native tool chain
-  -implement MVVM structure
 
 Just started working on it, so it's not much yet. Any thoughts are welcome, expecially if they're in XAML and/or C# format!
 
